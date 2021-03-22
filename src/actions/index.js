@@ -12,42 +12,43 @@ You may obtain a copy of the License at
  See the License for the specific language governing permissions and
  limitations under the License.*/
 
-import fetch from 'isomorphic-fetch'
-import ActionTypes from '../constants'
+import fetch from "isomorphic-fetch";
+import ActionTypes from "../constants";
+const API_KEY = process.env.REACT_APP_API_KEY;
 
 // Actions for retrieving movie
 export const retrieveMoviesStart = () => {
   return {
-    type: ActionTypes.RETRIEVE_MOVIES_START,
+    type: ActionTypes.RETRIEVE_MOVIES_START
   };
-}
+};
 
-export const retrieveMoviesError = (error) => {
+export const retrieveMoviesError = error => {
   return {
     type: ActionTypes.RETRIEVE_MOVIES_ERROR,
     payload: error
   };
-}
+};
 
-export const retrieveMoviesSuccess = (response) => {
+export const retrieveMoviesSuccess = response => {
   return {
     type: ActionTypes.RETRIEVE_MOVIES_SUCCESS,
     payload: response
   };
-}
+};
 
-export const retrieveMovies = (userInput) => {
+export const retrieveMovies = userInput => {
   return dispatch => {
-  // Insert your api key on line 30, remove []
-  const URL = `http://www.omdbapi.com/?apikey=[apiKey]&t=${userInput}`;
-  let request = new Request(URL, {
-    method: 'GET',
-  });
+    // Insert your api key on line 30, remove []
+    const URL = ` http://www.omdbapi.com/?i=tt3896198&apikey=${API_KEY}&t=${userInput}`;
+    let request = new Request(URL, {
+      method: "GET"
+    });
 
-  dispatch(retrieveMoviesStart())
-  return fetch(request)
-    .then(response => response.json())
-    .then(result => dispatch(retrieveMoviesSuccess(result)))
-    .catch(error => dispatch(retrieveMoviesError(error)));
+    dispatch(retrieveMoviesStart());
+    return fetch(request)
+      .then(response => response.json())
+      .then(result => dispatch(retrieveMoviesSuccess(result)))
+      .catch(error => dispatch(retrieveMoviesError(error)));
   };
-}
+};
